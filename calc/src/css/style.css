@@ -41,3 +41,9 @@ input.result{
     top: 10px;
     color: #9c9c9c;
 }
+
+.column-3 > button{
+    width: 100%;
+    float: left;
+    background:#ffa260;
+}
