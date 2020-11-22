@@ -11,6 +11,7 @@ import Home from './components/Pages/Home';
 import About from './components/Pages/About';
 
 
+
 function App() {
   return (
     <Router>
@@ -18,12 +19,12 @@ function App() {
 
         <Route
           exact={true}
-          path="/"
+          path='/'
           component={Home}
         />
 
         <Route
-          path="/about"
+          path='/about'
           component={About}
         />
 
