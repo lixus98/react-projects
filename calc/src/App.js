@@ -19,24 +19,28 @@ class App extends Component {
   }
 
   addToCurrent = (symbol) => {
+    
     if(["/","-","+","*"].indexOf(symbol) > -1){
       
+      //If the parameter symbol equals to one of the operators and the previous array is empty
+      //we push current and symbol to the previous array
       if(this.state.previous.length == 0){
         let {previous} = this.state;
         previous.push(this.state.current + symbol);
         this.setState({previous, nextIsReset:true})
-      
+      //Else we push the last item in previous array + current and symbol
       }else{
         let {previous} = this.state;
         previous.push(previous[this.state.previous.length -1] + this.state.current + symbol);
         this.setState({previous, nextIsReset:true})
       }
     }else{
-        
+      //Else we check if current is not 0 or . to set current to symbol  
       if((this.state.current === "0" && symbol !== ".") || this.state.nextIsReset){
         this.setState({current: symbol, nextIsReset:false});
         
       }else{
+        //we set current to itself + the symbol
         this.setState({current: this.state.current + symbol});
       }
     }
