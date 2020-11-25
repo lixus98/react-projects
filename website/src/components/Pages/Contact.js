@@ -86,17 +86,7 @@ export default withFormik({
         phone: '',
         message: ''
     }),
-    validate: values => {
-        const errors = {};
-        
-        Object.keys(values).map(v => {
-            if(!values[v]){
-                errors[v] = "Required";
-            }
-        })
 
-        return errors;
-    },
     handleSubmit: (values, {setSubmiting}) => {
         alert("This is the form you've submited \nname:" + values.name +
         "\nemail:" + values.email +
