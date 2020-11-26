@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Field from '../Common/Field';
 import {withFormik} from 'formik';
+import * as Yup from 'yup';
 
 
 const fields = {
@@ -8,7 +9,7 @@ const fields = {
         [
             {name: 'name', elementName: 'input', type: 'text', placeholder: 'Your Name*' },
             {name: 'email', elementName: 'input', type: 'email', placeholder: 'Your Email*' },
-            {name: 'phone', elementName: 'input', type: 'tel', placeholder: 'Your Phone*' },
+            {name: 'phone', elementName: 'input', type: 'text', placeholder: 'Your Phone*' },
             
         ],
         [
@@ -86,7 +87,23 @@ export default withFormik({
         phone: '',
         message: ''
     }),
+    validationSchema: Yup.object().shape({
+        name: Yup.string()
+            .min(3, 'Your name must be at least 3 characters.')
+            .required('You must give us your name.'),
+        email: Yup.string()
+            .email('Please enter a valid email.')
+            .required('You must give us your email.'),
+        phone: Yup.string()
+            .min(10, 'Please enter a valid 10 digit phone number.')
+            .max(15, 'Your phone number is too long.')
+            .required('We need a phone number to reach you at.'),
+        message: Yup.string()
+            .min(20, 'Your message is too short.')
+            .max(160, 'You have exceded the maximum length.')
+            .required('Please enter your message.')
 
+    }),
     handleSubmit: (values, {setSubmiting}) => {
         alert("This is the form you've submited \nname:" + values.name +
         "\nemail:" + values.email +
