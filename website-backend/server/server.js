@@ -45,20 +45,24 @@ app.models.user.find((err, result) => {
     };
 
     app.models.user.create(user, (err, result) => {
-      console.log("Tried to create user: ", err, result);
+      if(!err && result){
+      console.log("Tried to create user: ", result);
+      }else{
+        console.log("There seems to be an error my guy", err);
+      }
     });
   }
 });
 
-app.models.user.afterRemote('create', (ctx, user, next) => {
-  console.log('New user is ', user);
+app.models.user.observe('after save', (ctx, next) => {
+  console.log('The instance obseved is ', ctx.instance);
   app.models.Profile.create({
-    first_name: user.username,
+    first_name: ctx.instance.username,
     created_at: new Date(),
-    userId: user.id
+    userId: ctx.instance.id
   }, (err, result) => {
     if(!err && result){
-      console.log('Created new profile ', result);
+      console.log('New profile created ', result);
     }else{
       console.log('There is an error', err);
     }
