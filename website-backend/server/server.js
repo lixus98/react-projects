@@ -36,7 +36,7 @@ boot(app, __dirname, function(err) {
 
 console.log(Object.keys(app.models));
 
-app.models.user.find((err, result) => {
+/*app.models.user.find((err, result) => {
   if (result.length === 0) {
     const user = {
       email: 'lixus@email.com',
@@ -68,4 +68,4 @@ app.models.user.observe('after save', (ctx, next) => {
     }
     next();
   });
-});
+});*/
