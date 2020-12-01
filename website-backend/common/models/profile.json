@@ -33,6 +33,11 @@
       "type": "belongsTo",
       "model": "user",
       "foreignKey": "userId"
+    },
+    "post":{
+      "type":"hasMany",
+      "model":"post",
+      "foreignKey":""
     }
   },
   "acls": [],
