@@ -53,19 +53,45 @@ console.log(Object.keys(app.models));
     });
   }
 });
+*/
 
-app.models.user.observe('after save', (ctx, next) => {
-  console.log('The instance obseved is ', ctx.instance);
-  app.models.Profile.create({
-    first_name: ctx.instance.username,
-    created_at: new Date(),
-    userId: ctx.instance.id
-  }, (err, result) => {
-    if(!err && result){
-      console.log('New profile created ', result);
-    }else{
-      console.log('There is an error', err);
-    }
-    next();
-  });
-});*/
+// app.models.user.findById('5fc70a92b0b5ba02d229d71f', (err, user) => {
+//   if(!err && user){
+//     app.models.Profile.create({
+//       first_name: user.username,
+//       created_at: new Date(),
+//       userId: user.id
+//     }, (err, result) => {
+//       if(!err && result){
+//         console.log('New profile created ', result);
+//       }else{
+//         console.log('There is an error', err);
+//       }
+//     });
+// }
+// });
+
+// app.models.Role.find({where:{name:'admin'}}, (err, role) => {
+//   if (!err && role) {
+//     console.log('No error, role is:', role);
+//     if (role.length === 0) {
+//       app.models.Role.create({
+//         name:'admin',
+//       }, (errc, result) => {
+//         if (!errc && result) {
+
+//           app.models.user.findOne((usererr, user) => {
+//             if (!usererr && user) {
+//               result.principals.create({
+//                 principalType: app.models.RoleMapping.USER,
+//                 principalId:user.id,
+//               }, (errc2, principal) => {
+//                 console.log('Created principal', errc2, principal);
+//               });
+//             }
+//           });
+//         }
+//       });
+//     }
+//   }
+// });
