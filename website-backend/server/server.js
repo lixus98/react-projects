@@ -95,3 +95,16 @@ console.log(Object.keys(app.models));
 //     }
 //   }
 // });
+
+app.models.Role.find({where:{name: 'editor'}}, (errrole, roles) =>{
+  if (!errrole && roles) {
+    if (roles.length === 0) {
+      app.models.Role.create({
+        name: 'editor',
+      }, (creationerr, result) => {
+        console.log('Created?', creationerr, result)
+      });
+    }
+
+  }
+});

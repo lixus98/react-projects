@@ -43,5 +43,17 @@
   "post": {
     "dataSource": "db",
     "public": true
+  },
+  "Category": {
+    "dataSource": "db",
+    "public": true
+  },
+  "PostImage": {
+    "dataSource": "db",
+    "public": true
+  },
+  "ImageFile": {
+    "dataSource": "myFile",
+    "public": true
   }
 }
