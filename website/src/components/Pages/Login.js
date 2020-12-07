@@ -3,6 +3,7 @@ import Field from '../Common/Field';
 import {withFormik} from 'formik';
 import {connect} from 'react-redux';
 import * as Yup from 'yup';
+import * as AuthActions from '../../store/actions/authActions';
 
 
 const Fields = [
@@ -20,10 +21,14 @@ class Login extends Component{
                         <h1>Login</h1>
                     </div>
                         <div className="row">
-                            <form onSubmit={this.props.handleSubmit} novalidate="novalidate">
+                            <form onSubmit={e => {
+                                e.preventDefault();
+                                this.props.login(this.props.values.email, this.props.values.password);
+                                this.props.handleSubmit(e);
+                            }} noValidate="noValidate">
                                 {Fields.map((field, index) => {
                                         return (
-                                            <div className="col-md-12">
+                                            <div className="col-md-12" key={index}>
                                                 <Field
                                                     {...field}
                                                     key={index}
@@ -62,12 +67,15 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         login: (email, pass) => {
-            console.log("Loggin in user", email);
+            dispatch(AuthActions.login(email, pass));
         }
     }
 }
 
-export default connect(withFormik({
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withFormik({
     mapPropsToValues: () => ({
         email: '',
         password: ''
@@ -81,5 +89,6 @@ export default connect(withFormik({
     }),
     handleSubmit: (values, {setSubmiting}) => {
         console.log("Login attempt", values);
+        //login(values.email, values.password);
     }
-}))(Login);
+})(Login));
