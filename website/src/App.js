@@ -15,6 +15,7 @@ import Contact from './components/Pages/Contact';
 import Login from './components/Pages/Login';
 import AdminWrapper from './components/AdminWrapper';
 import Dashboard from './components/Pages/Dashboard';
+import LoginWrapper from './components/LoginWrapper';
 
 
 
@@ -33,7 +34,9 @@ class App extends Component {
                       <Dashboard />
                     </AdminWrapper>
                   : 
-                    <Login />
+                    <LoginWrapper>
+                      <Login />
+                    </LoginWrapper>
                   }
                 </div>
               )
