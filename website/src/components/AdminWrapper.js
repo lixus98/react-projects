@@ -37,12 +37,11 @@ class AdminWrapper extends Component{
         const {classes} = this.props;
 
         return(
-        <div id="admin-page">
+        <div id="admin-page" className="admin-page">
  
-            
             <AppBar className={classes.appBar}>
                 <Toolbar className={classes.toolbar}>
-                    <IconButton>
+                    <IconButton color="inherit">
                         <MenuIcon />
                     </IconButton>
                     <Typography
