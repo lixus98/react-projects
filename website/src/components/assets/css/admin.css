@@ -26,6 +26,6 @@
     min-width: 432px;
 }
 
-.admin-page button{
-    outline:none;
+.no-outline button{
+    outline: 0 !important; 
 }

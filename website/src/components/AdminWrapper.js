@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import './assets/css/admin.css';
+import {connect} from 'react-redux';
+import * as handleSidebar from '../store/actions/sidebarAction';
 
 import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
@@ -21,9 +23,13 @@ import Divider from '@material-ui/core/Divider';
 const drawerWidth = 240;
 
 const styles = theme => ({
+    root:{
+        display: 'flex',
+    },
     toolbar: {
         paddingRight: 24
     },
+    appBarSpacer: theme.mixins.toolbar,
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
         transition: theme.transitions.create(['width', 'margin'], {
@@ -68,66 +74,85 @@ const styles = theme => ({
     },
     menuIcon: {
         marginRight: theme.spacing(2),
-    }
+    },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        height: "100vh",
+        overflow: "auto"
+    },
 })
 
 class AdminWrapper extends Component{
 
-    constructor(props){
-        super(props);
 
-        this.state = {
-            open: true
-        }
-    }
-
-    handleDrawerClose = (e) => {
-        this.setState({open: false});
-    }
-
-    handleDrawerOpen = (e) => {
-        this.setState({open: true});
-    }
 
     render(){
         const {classes} = this.props;
 
         return(
-        <div id="admin-page" className="admin-page">
- 
-            <AppBar className={classNames(classes.appBar, this.state.open && classes.appBarShift)}>
-                <Toolbar className={classes.toolbar}>
-                    <IconButton className={classNames(classes.menuIcon, this.state.open && classes.hide)} color="inherit" onClick={this.handleDrawerOpen}>
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography
-                        component="h1"
-                        variant="h6"
-                        color='inherit'
-                        noWrap
-                    >Admin Dashboard</Typography>
-                </Toolbar>
-            </AppBar>
-
-            <Drawer
-            classes={{
-                paper: classNames(classes.drawerPaper, !this.state.open && classes.drawerPaperClose)
-            }}
-            variant='permanent'
-            open={true}
-            >
-                <div className={classes.toolbarIcon}>
-                    <IconButton onClick={this.handleDrawerClose}>
-                        <ChevronLeftIcon />
-                    </IconButton>
-                </div>
-                <Divider />
-                <Sidebar />
-            </Drawer>
-            {this.props.children}
+        <div id="admin-page" className={classes.root}>
+            <div className="no-outline">
+                <AppBar className={classNames(classes.appBar, this.props.handleSidebar.open && classes.appBarShift)}>
+                    <Toolbar className={classes.toolbar}>
+                        <IconButton className={classNames(classes.menuIcon, this.props.handleSidebar.open && classes.hide)} 
+                            color="inherit" 
+                            onClick={this.props.handleDrawerOpen}>
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography
+                            component="h1"
+                            variant="h6"
+                            color='inherit'
+                            noWrap
+                        >Admin Dashboard</Typography>
+                    </Toolbar>
+                </AppBar>
+            </div>
+                <Drawer
+                classes={{
+                    paper: classNames(classes.drawerPaper, !this.props.handleSidebar.open && classes.drawerPaperClose)
+                }}
+                variant='permanent'
+                open={true}
+                >
+                    <div className="no-outline">
+                        <div className={classes.toolbarIcon}>
+                            <IconButton onClick={this.props.handleDrawerClose}>
+                                <ChevronLeftIcon />
+                            </IconButton>
+                        </div>
+                    </div>
+                    <Divider />
+                    <Sidebar />
+                </Drawer>
+                <main className={classes.content}>
+                    <div className={classes.appBarSpacer} />
+                    {this.props.children}
+                </main>
         </div>
         );
     }
 }
 
-export default withStyles(styles)(AdminWrapper);
+const mapStateToProps = state => {
+    return {
+        handleSidebar: state.handleSidebar
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        handleDrawerClose: (e) => {
+            dispatch(handleSidebar.handleDrawerClose(e));
+        },
+        handleDrawerOpen: (e) => {
+            dispatch(handleSidebar.handleDrawerOpen(e));
+        }
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(AdminWrapper));
