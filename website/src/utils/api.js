@@ -8,6 +8,20 @@ const API = {
         .then(res => {
             success(res);
         });
+    },
+
+    getUsers: (token, success) => {
+        axios.get(`${host}/api/users?access_token=${token}`)
+        .then(res => {
+            success(res)
+        });
+    },
+
+    getPosts: (token, success) => {
+        axios.get(`${host}/api/posts?access_token=${token}`)
+        .then(res => {
+            success(res)
+        });
     }
 }
 
