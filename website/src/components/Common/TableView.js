@@ -26,18 +26,23 @@ class TableView extends Component{
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows ? 
+                        {rows ?
                             rows.map((row, i) => {
-                                return columns.map((col, colIndex) => {
-                                    return (
-                                        <TableCell key={i}>
-                                            {row[col.name]}
-                                        </TableCell>
-                                    )
-                                })
+                                return (
+                                    <TableRow key={i}>
+                                    {
+                                        columns.map((col, colIndex) => {
+                                            return (
+                                            <TableCell key={colIndex}>
+                                                {row[col.name]}
+                                            </TableCell>
+                                            )
+                                        })
+                                    }
+                                </TableRow>
+                                )
                             })
-                        : null
-                        }
+                        : null}
                     </TableBody>
                 </Table>
             </Paper>
