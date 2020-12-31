@@ -49,8 +49,30 @@ class App extends Component {
           }}
 
         />
+
         <Route
-          path='/admin/posts/add'
+          exact={true}
+          path='/admin/posts/:view/:id'
+          render={props => {
+            return (
+              <div>
+                {this.props.auth.token ?
+                  <AdminWrapper>
+                    <AddPost />
+                  </AdminWrapper>
+                :
+                  <LoginWrapper>
+                    <Login />
+                  </LoginWrapper>
+                }
+              </div>
+            )
+          }}
+        />
+
+        <Route
+          exact={true}
+          path='/admin/posts/:view'
           render={props => {
             return (
               <div>

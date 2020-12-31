@@ -4,47 +4,89 @@ import { withStyles } from '@material-ui/core/styles';
 import * as adminActions from '../../../store/actions/adminActions';
 import Paper from '@material-ui/core/Paper';
 import { withFormik, Formik, Form } from 'formik';
+import { FormikTextField, FormikSelectField } from 'formik-material-fields';
+import Button from '@material-ui/core/Button';
+import SaveIcon from '@material-ui/icons/Save';
+import '../../assets/css/admin.css';
+import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
-import { FormikTextField } from 'formik-material-fields';
-
 
 
 const styles = theme => ({
-    container: {
-        margin: theme.spacing(3)
-    },
     FormControl: {
-        margin: theme.spacing(1)
+        margin: theme.spacing(3),
+        display: 'flex',
+        flexDirection: 'row wrap',
+        width: '100%'
+    },
+    leftSide: {
+        flex: 4,
+        height: '100%',
+        margin: theme.spacing(1),
+        padding: theme.spacing(3)
+    },
+    rightSide: {
+        flex: 1,
+        height: '100%',
+        margin: theme.spacing(1),
+        padding: theme.spacing(3)
     }
 });
 
 class AddPost extends Component {
+
+    componentDidUpdate(props, state){
+        if(this.props.match.params.view === 'add' && this.props.admin.posts.filter(p => p.title === this.props.values.title).length > 0){
+            const post = this.props.admin.posts.filter(p => p.title === this.props.values.title)[0];
+            this.props.history.push('/admin/posts/edit/' + post.id);
+        }
+    }
+
     render(){
         const {classes} = this.props;
 
         return(
-            <div className={classes.container}>
-
-                <h1>Add Post</h1>
+            <div>    
                 <Form className={classes.FormControl}>
-                    <FormikTextField 
-                        name="title"
-                        label="Title"
-                        margin="normal"
-                        onChange={e => this.props.setFieldValue('slug', e.target.value.toLowerCase().replace(/ +/g, '_'))}
-                        fullWidth
-                        />
+                    <Paper className={classes.leftSide}> 
                         <FormikTextField 
-                        name="slug"
-                        label="Slug"
-                        margin="normal"
+                            name="title"
+                            label="Title"
+                            margin="normal"
+                            onChange={e => this.props.setFieldValue('slug', e.target.value.toLowerCase().replace(/ +/g, '_'))}
+                            fullWidth
+                            />
+                            <FormikTextField 
+                            name="slug"
+                            label="Slug"
+                            margin="normal"
+                            />
+                            <FormikTextField 
+                            name="content"
+                            label="Content"
+                            margin="normal"
+                            fullWidth
+                            />
+                    </Paper>
+                    <Paper className= {classes.rightSide + ' no-outline'} >
+                        <FormikSelectField
+                            name="status"
+                            label="satus"
+                            margin="normal"
+                            options={[
+                                {label: 'Unpublished', value: false},
+                                {label: 'Published', value: true}
+                            ]}
+                            fullWidth
                         />
-                        <FormikTextField 
-                        name="content"
-                        label="Content"
-                        margin="normal"
-                        fullWidth
-                        />
+                        <Button 
+                        variant='contained' 
+                        color="secondary"
+                        onClick={e => {
+                            this.props.handleSubmit();
+                        }}
+                        ><SaveIcon /> Save</Button>
+                    </Paper>
                 </Form>
             </div>
         )
@@ -60,11 +102,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-
+        addPost: (post, token) => {
+            dispatch(adminActions.addPost(post, token));
+        }
     }
 };
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
 )((withFormik)({
@@ -82,7 +126,8 @@ export default connect(
         slug: Yup.string().required(),
         content: Yup.string().required()
     }),
-    handleSubmit: (values, {setSubmitting}) => {
-        
+    handleSubmit: (values, {setSubmitting, props}) => {
+        console.log("Saving", props.addPost);
+        props.addPost(values, props.auth.token);
     }
-})(withStyles(styles)(AddPost)));
+})(withStyles(styles)(AddPost))));

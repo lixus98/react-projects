@@ -7,22 +7,42 @@ const API = {
         axios.post(`${host}/api/users/login`, {email: email, password: pass})
         .then(res => {
             success(res);
+        })
+        .catch(err => {
+            console.log('Error: ', err);
         });
     },
 
     getUsers: (token, success) => {
         axios.get(`${host}/api/users?access_token=${token}`)
         .then(res => {
-            success(res)
+            success(res);
+        })
+        .catch(err => {
+            console.log('Error: ', err);
         });
     },
 
     getPosts: (token, success) => {
         axios.get(`${host}/api/posts?access_token=${token}`)
         .then(res => {
-            success(res)
+            success(res);
+        })
+        .catch(err => {
+            console.log('Error: ', err);
+        });
+    },
+
+    addPost: (post, token, success) => {
+        axios.post(`${host}/api/posts?access_token=${token}`, post)
+        .then(res => {
+            success(res);
+        })
+        .catch(err => {
+            console.log('Error: ', err);
         });
     }
+
 }
 
 export default API;
