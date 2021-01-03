@@ -41,8 +41,18 @@ const API = {
         .catch(err => {
             console.log('Error: ', err);
         });
+    },
+    getPostById: (id, token, success) => {
+        axios.get(`${host}/api/posts?access_token=${token}`, id)
+        .then(res => {
+            success(res);
+        })
+        .catch(err => {
+            console.log('Error', err);
+        })
     }
 
 }
+
 
 export default API;
