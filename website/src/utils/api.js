@@ -43,13 +43,13 @@ const API = {
         });
     },
     getPostById: (id, token, success) => {
-        axios.get(`${host}/api/posts?access_token=${token}`, id)
+        axios.get(`${host}/api/posts/${id}?access_token=${token}`)
         .then(res => {
             success(res);
         })
         .catch(err => {
             console.log('Error', err);
-        })
+        });
     }
 
 }
