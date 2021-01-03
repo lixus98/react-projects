@@ -42,6 +42,15 @@ const API = {
             console.log('Error: ', err);
         });
     },
+    updatePostById: (post, token, success) => {
+        axios.patch(`${host}/api/posts/${post.id}?access_token=${token}`, post)
+        .then(res => {
+            success(res);
+        })
+        .catch(err => {
+            console.log('Error', err);
+        });
+    },
     getPostById: (id, token, success) => {
         axios.get(`${host}/api/posts/${id}?access_token=${token}`)
         .then(res => {

@@ -1,11 +1,14 @@
-import React, {Component} from 'react';
-import {withStyles} from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import { Link as RouterLink } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
+import EditIcon from '@material-ui/icons/Edit';
 
 class TableView extends Component{
     render(){
@@ -34,7 +37,11 @@ class TableView extends Component{
                                         columns.map((col, colIndex) => {
                                             return (
                                             <TableCell key={colIndex}>
-                                                {row[col.name]}
+                                                {col.name === 'actions' ?
+                                                    <Link to={`/admin/posts/edit/${row['id']}`} component={RouterLink}><EditIcon /></Link>
+                                                :
+                                                    row[col.name]
+                                                }
                                             </TableCell>
                                             )
                                         })

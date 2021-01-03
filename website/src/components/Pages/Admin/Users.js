@@ -7,7 +7,8 @@ import * as adminActions from '../../../store/actions/adminActions';
 const columns = [
     {label: 'ID', name: 'id'},
     {label: 'Email', name: 'email'},
-    {label: 'Name', name: 'name'}
+    {label: 'Name', name: 'name'},
+    {label: 'Actions', name: 'actions'}
 ];
 
 class Users extends Component{
