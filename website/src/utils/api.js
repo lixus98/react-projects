@@ -33,6 +33,16 @@ const API = {
         });
     },
 
+    uploadImage: (data, token, postId, userId, success) => {
+        axios.post(`${host}/api/PostImages?post_id=${postId}&access_token=${token}&user_id=${userId}`, data)
+        .then(res => {
+            success(res);
+        })
+        .catch(err => {
+            console.log("Error: ", err);
+        });
+    },
+
     addPost: (post, token, success) => {
         axios.post(`${host}/api/posts?access_token=${token}`, post)
         .then(res => {

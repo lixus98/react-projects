@@ -10,19 +10,23 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogContent from '@material-ui/core/DialogContent';
 import SaveIcon from '@material-ui/icons/Save';
+import ImageIcon from '@material-ui/icons/Image';
 import { withFormik, Formik, Form } from 'formik';
 import { FormikTextField, FormikSelectField } from 'formik-material-fields';
 import '../../assets/css/admin.css';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
 
-
+/* global $ */
 const styles = theme => ({
     FormControl: {
         margin: theme.spacing(3),
         display: 'flex',
         flexDirection: 'row wrap',
         width: '100%'
+    },
+    Save: {
+        marginBottom: theme.spacing(2)
     },
     leftSide: {
         flex: 4,
@@ -75,6 +79,11 @@ class AddPost extends Component {
         this.setState({dialogOpen: false});
     };
     
+    uploadImage = (e) => {
+        const data = new FormData();
+        data.append('file', e.target.file[0], new Date().getTime().toString() + e.target.file[0].name);
+        this.props.uploadImage(data, this.props.auth.token, this.props.admin.post.id, this.props.auth.user);
+    }
 
     render(){
         const {classes} = this.props;
@@ -114,14 +123,26 @@ class AddPost extends Component {
                             ]}
                             fullWidth
                         />
-                        <Button 
-                        variant='contained' 
-                        color="secondary"
-                        onClick={e => {
-                            this.props.handleSubmit();
-                            this.handleClickOpen();
-                        }}
-                        ><SaveIcon /> Save</Button>
+                        <div className={classes.Save}>
+                            <Button 
+                            variant='contained' 
+                            color="secondary"
+                            onClick={e => {
+                                this.props.handleSubmit();
+                                this.handleClickOpen();
+                            }}
+                            ><SaveIcon /> Save</Button>
+                        </div>
+                        <div>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={e => {
+                                    $('.MyFile').trigger('click');
+                                }}
+                            ><ImageIcon />Upload Post Image</Button>
+                            <input type="file" style={{display: 'none'}} className="MyFile" onChange={this.uploadImage} />
+                        </div>
                     </Paper>
                 </Form>
                 {this.props.match.params.view === 'edit' ?
@@ -188,6 +209,9 @@ const mapDispatchToProps = dispatch => {
         },
         getPostById: (id, token) => {
             dispatch(adminActions.getPostById(id, token));
+        },
+        uploadImage: (data, token, postId, userId) => {
+            dispatch(adminActions.uploadImage(data, toke, postId, userId));
         }
     }
 };
