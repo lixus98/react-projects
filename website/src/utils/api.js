@@ -2,7 +2,11 @@ import axios from 'axios';
 
 const host = 'http://localhost:8080';
 
+
 const API = {
+    makeFileUrl: (url, token) => {
+        return host + url + "?access_token=" + token;
+    },
     login: (email, pass, success) => {
         axios.post(`${host}/api/users/login`, {email: email, password: pass})
         .then(res => {
@@ -34,12 +38,11 @@ const API = {
     },
 
     uploadImage: (data, token, postId, userId, success) => {
-        axios.post(`${host}/api/PostImages?post_id=${postId}&access_token=${token}&user_id=${userId}`, data)
+        axios.post(`${host}/api/PostImages/upload?post_id=${postId}&access_token=${token}&user_id=${userId}`, data)
         .then(res => {
             success(res);
-        })
-        .catch(err => {
-            console.log("Error: ", err);
+        }).catch(err => {
+            console.log('Error: ', err);
         });
     },
 
@@ -62,7 +65,13 @@ const API = {
         });
     },
     getPostById: (id, token, success) => {
-        axios.get(`${host}/api/posts/${id}?access_token=${token}`)
+        axios.get(`${host}/api/posts/${id}?access_token=${token}`, {
+            params: {
+                filter: {
+                    include: "PostImage"
+                }
+            }
+        })
         .then(res => {
             success(res);
         })

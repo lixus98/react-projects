@@ -20,7 +20,10 @@ const admin = (state = defaultState, action) => {
         case 'IMAGE_UPLOADED':
             return {
                 ...state,
-                image: action.payload
+                post: {
+                    ...state.post,
+                    PostImage: [action.payload]
+                }
             }
         case 'POST_ADDED':
             return {

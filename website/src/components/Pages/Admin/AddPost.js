@@ -16,6 +16,7 @@ import { FormikTextField, FormikSelectField } from 'formik-material-fields';
 import '../../assets/css/admin.css';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
+import API from "../../../utils/api";
 
 /* global $ */
 const styles = theme => ({
@@ -39,6 +40,9 @@ const styles = theme => ({
         height: '100%',
         margin: theme.spacing(1),
         padding: theme.spacing(3)
+    },
+    postImage: {
+        width: '100%'
     }
 });
 
@@ -81,7 +85,7 @@ class AddPost extends Component {
     
     uploadImage = (e) => {
         const data = new FormData();
-        data.append('file', e.target.file[0], new Date().getTime().toString() + e.target.file[0].name);
+        data.append('file', e.target.files[0], new Date().getTime().toString() + e.target.files[0].name);
         this.props.uploadImage(data, this.props.auth.token, this.props.admin.post.id, this.props.auth.user);
     }
 
@@ -133,6 +137,9 @@ class AddPost extends Component {
                             }}
                             ><SaveIcon /> Save</Button>
                         </div>
+                        {this.props.admin.post.PostImage.length > 0 ? 
+                            <img src={API.makeFileUrl(this.props.admin.post.PostImage[0].url, this.props.auth.token)} className={classes.postImage} alt="Post Image" />
+                        : null}
                         <div>
                             <Button
                                 variant="contained"
@@ -211,7 +218,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(adminActions.getPostById(id, token));
         },
         uploadImage: (data, token, postId, userId) => {
-            dispatch(adminActions.uploadImage(data, toke, postId, userId));
+            dispatch(adminActions.uploadImage(data, token, postId, userId));
         }
     }
 };
