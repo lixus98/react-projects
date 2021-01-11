@@ -19,6 +19,8 @@ import '../../assets/css/admin.css';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
 import API from "../../../utils/api";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 /* global $ */
 const styles = theme => ({
