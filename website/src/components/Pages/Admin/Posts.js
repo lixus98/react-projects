@@ -29,6 +29,7 @@ class Posts extends Component{
 
     componentDidMount(){
         this.props.getPosts(this.props.auth.token);
+        this.props.admin.post.PostImage 
     }
 
     render(){

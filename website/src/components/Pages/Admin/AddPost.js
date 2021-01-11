@@ -9,6 +9,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogContent from '@material-ui/core/DialogContent';
+import LazyImage from '../../Common/LazyImage';
+import Spin from '../../../Spin.gif';
 import SaveIcon from '@material-ui/icons/Save';
 import ImageIcon from '@material-ui/icons/Image';
 import { withFormik, Formik, Form } from 'formik';
@@ -130,7 +132,7 @@ class AddPost extends Component {
                         <div className={classes.Save}>
                             <Button 
                             variant='contained' 
-                            color="secondary"
+                            color="secondary" 
                             onClick={e => {
                                 this.props.handleSubmit();
                                 this.handleClickOpen();
@@ -138,7 +140,7 @@ class AddPost extends Component {
                             ><SaveIcon /> Save</Button>
                         </div>
                         {this.props.admin.post.PostImage.length > 0 ? 
-                            <img src={API.makeFileUrl(this.props.admin.post.PostImage[0].url, this.props.auth.token)} className={classes.postImage} alt="Post Image" />
+                            <LazyImage unloadedSrc={Spin} src={API.makeFileUrl(this.props.admin.post.PostImage[0].url, this.props.auth.token)} className={classes.postImage} alt="Post Image" />
                         : null}
                         <div>
                             <Button
