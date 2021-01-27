@@ -18,7 +18,7 @@ import { FormikTextField, FormikSelectField } from 'formik-material-fields';
 import '../../assets/css/admin.css';
 import { withRouter } from 'react-router-dom';
 import * as Yup from 'yup';
-import API from "../../../utils/api";
+import API from '../../../utils/api';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -52,7 +52,7 @@ const styles = theme => ({
 
 class AddPost extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -61,89 +61,117 @@ class AddPost extends Component {
     };
 
 
-    componentDidUpdate(props, state){
-        if(this.props.match.params.view === 'add' && this.props.admin.posts.filter(p => p.title === this.props.values.title).length > 0){
+    componentDidUpdate(props, state) {
+        if (this.props.match.params.view === 'add' && this.props.admin.posts.filter(p => p.title === this.props.values.title).length > 0) {
             const post = this.props.admin.posts.filter(p => p.title === this.props.values.title)[0];
             this.props.history.push('/admin/posts/edit/' + post.id);
         }
 
-        if(this.props.admin.post.id !== props.admin.post.id){
+        if (this.props.admin.post.id !== props.admin.post.id) {
             //When redux state changes post in admin reducer
             this.props.setValues(this.props.admin.post);
         }
     }
 
-    componentDidMount(props, state){
-        if(this.props.match.params.view === 'edit' && this.props.match.params.id){
+    componentDidMount(props, state) {
+        if (this.props.match.params.view === 'edit' && this.props.match.params.id) {
             this.props.getPostById(this.props.match.params.id, this.props.auth.token);
         }
     }
-    
+
     handleClickOpen = () => {
-        this.setState({dialogOpen: true});
+        this.setState({ dialogOpen: true });
     };
-    
+
     handleClose = () => {
-        this.setState({dialogOpen: false});
+        this.setState({ dialogOpen: false });
     };
-    
+
     uploadImage = (e) => {
         const data = new FormData();
         data.append('file', e.target.files[0], new Date().getTime().toString() + e.target.files[0].name);
         this.props.uploadImage(data, this.props.auth.token, this.props.admin.post.id, this.props.auth.user);
     }
 
-    render(){
-        const {classes} = this.props;
+    modules = {
+        toolbar: [
+            ['bold', 'italic', 'strike', 'underline'],
+            [{ 'header': 1 }, { 'header': 2 }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'indent': '-1' }, {'indent':'+1'}],
+            [{'size':['small', 'medium', 'large', 'huge']}],
+            [{'color':[]}, { 'background':[]}],
+            ['image'],
+            ['clean'],
 
 
-        return(
-            <div>    
+        ]
+    }
+
+    formats = [
+        'header',
+        'bold', 'italic', 'strike', 'underline', 'blockquote', 'script',
+        'list', 'bullet', 'indent',
+        'link', 'image', 'color', 'code-block',
+        'size',
+        'background'
+    ]
+
+    render() {
+        const { classes } = this.props;
+
+
+        return (
+            <div>
                 <Form className={classes.FormControl}>
-                    <Paper className={classes.leftSide}> 
-                        <FormikTextField 
+                    <Paper className={classes.leftSide}>
+                        <FormikTextField
                             name="title"
                             label="Title"
                             margin="normal"
                             onChange={e => this.props.setFieldValue('slug', e.target.value.toLowerCase().replace(/ +/g, '_'))}
                             fullWidth
-                            />
-                            <FormikTextField 
+                        />
+                        <FormikTextField
                             name="slug"
                             label="Slug"
                             margin="normal"
-                            />
-                            <FormikTextField 
-                            name="content"
-                            label="Content"
-                            margin="normal"
-                            fullWidth
-                            />
+                        />
+                        <ReactQuill
+                            value={this.props.values.content}
+                            modules={this.modules}
+                            formats={this.formats}
+                            placeholder="Write some cool stuff here"
+                            onChange={val => this.props.setFieldValue("content", val)}
+                        />
                     </Paper>
-                    <Paper className= {classes.rightSide + ' no-outline'} >
+                    <Paper className={classes.rightSide + ' no-outline'} >
                         <FormikSelectField
                             name="status"
                             label="satus"
                             margin="normal"
                             options={[
-                                {label: 'Unpublished', value: false},
-                                {label: 'Published', value: true}
+                                { label: 'Unpublished', value: false },
+                                { label: 'Published', value: true }
                             ]}
                             fullWidth
                         />
                         <div className={classes.Save}>
-                            <Button 
-                            variant='contained' 
-                            color="secondary" 
-                            onClick={e => {
-                                this.props.handleSubmit();
-                                this.handleClickOpen();
-                            }}
+                            <Button
+                                variant='contained'
+                                color="secondary"
+                                onClick={e => {
+                                    this.props.handleSubmit();
+                                    this.handleClickOpen();
+                                }}
                             ><SaveIcon /> Save</Button>
                         </div>
-                        {this.props.admin.post.PostImage.length > 0 ? 
-                            <LazyImage unloadedSrc={Spin} src={API.makeFileUrl(this.props.admin.post.PostImage[0].url, this.props.auth.token)} className={classes.postImage} alt="Post Image" />
-                        : null}
+                        {this.props.admin.post.PostImage ?
+                            this.props.admin.post.PostImage.length > 0 ?
+                                <LazyImage unloadedSrc={Spin} src={API.makeFileUrl(this.props.admin.post.PostImage[0].url, this.props.auth.token)} className={classes.postImage} alt="Post Image" />
+                                : null
+                            : null}
+
                         <div>
                             <Button
                                 variant="contained"
@@ -152,7 +180,7 @@ class AddPost extends Component {
                                     $('.MyFile').trigger('click');
                                 }}
                             ><ImageIcon />Upload Post Image</Button>
-                            <input type="file" style={{display: 'none'}} className="MyFile" onChange={this.uploadImage} />
+                            <input type="file" style={{ display: 'none' }} className="MyFile" onChange={this.uploadImage} />
                         </div>
                     </Paper>
                 </Form>
@@ -175,7 +203,7 @@ class AddPost extends Component {
                                     </Button>
                         </DialogActions>
                     </Dialog>
-                :
+                    :
                     <Dialog
                         open={this.state.dialogOpen}
                         onClose={this.handleClose}
@@ -195,7 +223,7 @@ class AddPost extends Component {
                         </DialogActions>
                     </Dialog>
                 }
-                
+
             </div>
         )
     }
@@ -245,15 +273,15 @@ export default withRouter(connect(
         slug: Yup.string().required(),
         content: Yup.string().required()
     }),
-    handleSubmit: (values, {setSubmitting, props}) => {
+    handleSubmit: (values, { setSubmitting, props }) => {
         console.log("Saving", props.addPost);
-        if(props.match.params.view === 'edit'){
+        if (props.match.params.view === 'edit') {
             const post = {
                 ...values,
                 id: props.match.params.id
             }
             props.updatePostById(post, props.auth.token);
-        }else{
+        } else {
             props.addPost(values, props.auth.token);
         }
     }
