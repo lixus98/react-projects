@@ -4,8 +4,8 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import {connect} from 'react-redux';
-import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 
 //Pages
 
@@ -13,11 +13,13 @@ import Home from './components/Pages/Home';
 import About from './components/Pages/About';
 import Contact from './components/Pages/Contact';
 import Login from './components/Pages/Login';
+import Blog from './components/Pages/Blog';
+import Single from './components/Pages/Single';
 
-import AdminWrapper from './components/AdminWrapper';
-import LoginWrapper from './components/LoginWrapper';
 
 //Admin Pages
+import AdminWrapper from './components/AdminWrapper';
+import LoginWrapper from './components/LoginWrapper';
 import Dashboard from './components/Pages/Admin/Dashboard';
 import Users from './components/Pages/Admin/Users';
 import Posts from './components/Pages/Admin/Posts';
@@ -36,13 +38,13 @@ class App extends Component {
             return (
               <div>
                 {this.props.auth.token ?
-                <AdminWrapper>
-                  <Users />
-                </AdminWrapper>
-                :
-                <LoginWrapper>
-                  <Login />
-                </LoginWrapper>
+                  <AdminWrapper>
+                    <Users />
+                  </AdminWrapper>
+                  :
+                  <LoginWrapper>
+                    <Login />
+                  </LoginWrapper>
                 }
               </div>
             )
@@ -60,7 +62,7 @@ class App extends Component {
                   <AdminWrapper>
                     <AddPost />
                   </AdminWrapper>
-                :
+                  :
                   <LoginWrapper>
                     <Login />
                   </LoginWrapper>
@@ -80,7 +82,7 @@ class App extends Component {
                   <AdminWrapper>
                     <AddPost />
                   </AdminWrapper>
-                :
+                  :
                   <LoginWrapper>
                     <Login />
                   </LoginWrapper>
@@ -94,7 +96,7 @@ class App extends Component {
           exact={true}
           path='/admin/posts'
           render={props => {
-            return(
+            return (
               <div>
                 {this.props.auth.token ?
                   <AdminWrapper>
@@ -151,13 +153,30 @@ class App extends Component {
         />
 
         <Route
+          path='/blog/:slug'
+          render={props => (
+            <PageWrapper>
+              <Single {...props} />
+            </PageWrapper>
+          )}
+        />
+
+        <Route
+          path='/blog'
+          render={props => (
+            <PageWrapper>
+              <Blog {...props} />
+            </PageWrapper>
+          )}
+        />
+
+        <Route
           path='/contact'
           render={props => (
             <PageWrapper>
               <Contact {...props} />
             </PageWrapper>
           )}
-
         />
 
       </Router>
@@ -172,7 +191,7 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => {
-  return{
+  return {
 
   }
 }
