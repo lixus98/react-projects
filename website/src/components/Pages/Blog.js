@@ -4,6 +4,7 @@ import { withRouter, Link as RouterLink } from 'react-router-dom';
 import Header from '../Common/Header';
 import image from '../assets/img/about.jpg';
 import * as SiteActions from '../../store/actions/siteActions';
+import BlogItem from '../Common/BlogItem';
 
 
 
@@ -20,6 +21,23 @@ class Blog extends Component {
                     showButton={false}
                     image={image}
                 />
+                <section className="bg-light" id="portfolio">
+                    <div className="row">
+                        {this.props.site.posts ?
+                            this.props.site.posts.length > 0 ?
+                                this.props.site.posts.map((item, index) => {
+                                    return <BlogItem
+                                        post={item}
+                                        index={index}
+                                        key={index}
+                                    />
+                                })
+                                : null
+                            : null
+                        }
+                    </div>
+                </section>
+        );
             </div>
         );
     }

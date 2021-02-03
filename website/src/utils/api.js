@@ -4,8 +4,11 @@ const host = 'http://localhost:8080';
 
 
 const API = {
-    makeFileUrl: (url, token) => {
+    makeFileUrlToken: (url, token) => {
         return host + url + "?access_token=" + token;
+    },
+    makeFileUrl: (url) => {
+        return host + url;
     },
     login: (email, pass, success) => {
         axios.post(`${host}/api/users/login`, { email: email, password: pass })
@@ -84,7 +87,8 @@ const API = {
             params: {
                 filter: {
                     skip: skip,
-                    limit: 10
+                    limit: 10,
+                    include: "PostImage"
                 }
             }
         })

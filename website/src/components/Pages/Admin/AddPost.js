@@ -168,7 +168,7 @@ class AddPost extends Component {
                         </div>
                         {this.props.admin.post.PostImage ?
                             this.props.admin.post.PostImage.length > 0 ?
-                                <LazyImage unloadedSrc={Spin} src={API.makeFileUrl(this.props.admin.post.PostImage[0].url, this.props.auth.token)} className={classes.postImage} alt="Post Image" />
+                                <LazyImage unloadedSrc={Spin} src={API.makeFileUrl(this.props.admin.post.PostImage[0].thumbnail, this.props.auth.token)} className={classes.postImage} alt="Post Image" />
                                 : null
                             : null}
 

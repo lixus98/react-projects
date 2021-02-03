@@ -154,6 +154,7 @@ class App extends Component {
 
         <Route
           path='/blog/:slug'
+          exact={true}
           render={props => (
             <PageWrapper>
               <Single {...props} />
@@ -163,6 +164,7 @@ class App extends Component {
 
         <Route
           path='/blog'
+          exact={true}
           render={props => (
             <PageWrapper>
               <Blog {...props} />
