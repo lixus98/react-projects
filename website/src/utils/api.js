@@ -87,11 +87,21 @@ const API = {
             params: {
                 filter: {
                     skip: skip,
-                    limit: 10,
-                    include: "PostImage"
+                    limit: 4,
+                    include: "PostImage",
+                    fields: ['id', 'title', 'slug']
                 }
             }
         })
+            .then(res => {
+                success(res);
+            })
+            .catch(err => {
+                console.log('Error: ', err);
+            });
+    },
+    getPostCount: (success) => {
+        axios.get(`${host}/api/posts/count`)
             .then(res => {
                 success(res);
             })

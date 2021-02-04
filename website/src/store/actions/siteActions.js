@@ -8,7 +8,18 @@ export const getPosts = (skip) => {
                 type: 'GOT_SITE_POSTS',
                 payload: res.data,
                 skip: skip
-            })
-        }) 
-    }
-}
+            });
+        });
+    };
+};
+
+export const getPostCount = () => {
+    return (dispatch) => {
+        API.getPostCount(res => {
+            dispatch({
+                type: 'GOT_POST_COUNT',
+                payload: res.data.count
+            });
+        });
+    };
+};
