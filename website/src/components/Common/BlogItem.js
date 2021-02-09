@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import API from '../../utils/api';
 import placeholder from '../assets/img/placeholder-image.jpg';
 import { Link } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import * as SiteActions from '../../store/actions/siteActions';
 
 
 class BlogItem extends Component {
@@ -12,7 +13,9 @@ class BlogItem extends Component {
             <div className="col-md-4 col-sm-6 portfolio-item">
                 <Link
                     className="portfolio-link"
-                    to={`/blog/${this.props.post.slug}`}>
+                    to={`/blog/${this.props.post.slug}`}
+                    onClick={e => this.props.setPostData(this.props.post)}
+                >
                     <div className="portfolio-hover">
                         <div className="portfolio-hover-content">
                             <i className="fas fa-plus fa-3x"></i>
@@ -38,4 +41,19 @@ class BlogItem extends Component {
 
 }
 
-export default BlogItem;
+const mapStateToProps = state => ({
+
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        setPostData: (post) => {
+            dispatch(SiteActions.setPostData(post));
+        }
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(BlogItem);

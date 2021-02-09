@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Link as RouterLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Header from '../Common/Header';
 import image from '../assets/img/about.jpg';
 import * as SiteActions from '../../store/actions/siteActions';

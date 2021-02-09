@@ -22,3 +22,7 @@ th{
     border: 0;
     background-color: #223344;
 }
+
+.post-content {
+    max-width: 100%;
+}

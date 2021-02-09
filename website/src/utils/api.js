@@ -108,6 +108,21 @@ const API = {
             .catch(err => {
                 console.log('Error: ', err);
             });
+    },
+    getPostBySlug: (slug, token, success) => {
+        axios.get(`${host}/api/posts/findOne?access_token=${token}`, {
+            params: {
+                filter: {
+                    where: { slug: slug }
+                }
+            }
+        })
+            .then(res => {
+                success(res);
+            })
+            .catch(err => {
+                console.log('Error: ', err);
+            })
     }
 
 }
