@@ -24,9 +24,13 @@
 }
 
 .login-form input{
-    min-width: 432px;
+    min-width: 100%;
 }
 
 .no-outline button{
     outline: 0 !important; 
+}
+
+.form {
+    min-width: 100%
 }
